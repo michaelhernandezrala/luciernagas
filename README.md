@@ -258,3 +258,4 @@ Este proyecto es un ejercicio educativo desarrollado en equipo.
 ---
 
 **¡Buena suerte y que gane el mejor! 🔥✨**
+# luciernagas
