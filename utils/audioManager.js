@@ -11,9 +11,7 @@ class AudioManager {
    */
   async initialize() {
     try {
-      await Audio.setAudioModeAsync({
-        playsInSilentModeIOS: true,
-      });
+      // expo-audio handles audio mode automatically
       this.isInitialized = true;
     } catch (error) {
       console.error('Error initializing audio:', error);
@@ -29,7 +27,8 @@ class AudioManager {
       this.sounds = [];
       
       for (const soundFile of soundFiles) {
-        const { sound } = await Audio.Sound.createAsync(soundFile);
+        // expo-audio uses Audio.Sound.create instead of createAsync
+        const sound = await Audio.Sound.create(soundFile);
         this.sounds.push(sound);
       }
     } catch (error) {
@@ -48,8 +47,8 @@ class AudioManager {
 
     try {
       const sound = this.sounds[fireflyId];
-      await sound.setPositionAsync(0);
-      await sound.playAsync();
+      // expo-audio uses replay() method
+      await sound.replayAsync();
     } catch (error) {
       console.error('Error playing sound:', error);
     }

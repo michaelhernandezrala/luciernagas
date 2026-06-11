@@ -21,7 +21,7 @@ export default function Firefly({
         Animated.timing(glowAnim, {
           toValue: 1,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: false, // opacity and shadowRadius require false
         }),
         Animated.spring(scaleAnim, {
           toValue: 1.2,
@@ -34,7 +34,7 @@ export default function Firefly({
           Animated.timing(glowAnim, {
             toValue: 0,
             duration: 300,
-            useNativeDriver: true,
+            useNativeDriver: false, // opacity and shadowRadius require false
           }),
           Animated.spring(scaleAnim, {
             toValue: 1,
@@ -51,9 +51,19 @@ export default function Firefly({
     outputRange: [0.4, 1],
   });
 
-  const animatedStyle = {
-    opacity: interpolatedOpacity,
+  const interpolatedShadowRadius = glowAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [5, 30],
+  });
+
+  // Separate styles to avoid mixing native and JS driver
+  const scaleStyle = {
     transform: [{ scale: scaleAnim }],
+  };
+
+  const glowStyle = {
+    opacity: interpolatedOpacity,
+    shadowRadius: interpolatedShadowRadius,
   };
 
   return (
@@ -63,18 +73,19 @@ export default function Firefly({
       disabled={disabled}
       style={styles.container}
     >
-      <Animated.View
-        style={[
-          styles.firefly,
-          { backgroundColor: color },
-          animatedStyle,
-          {
-            shadowColor: color,
-            shadowOpacity: 0.8,
-            shadowRadius: isActive ? 30 : 10,
-          }
-        ]}
-      />
+      <Animated.View style={scaleStyle}>
+        <Animated.View
+          style={[
+            styles.firefly,
+            { backgroundColor: color },
+            glowStyle,
+            {
+              shadowColor: color,
+              shadowOpacity: 0.8,
+            }
+          ]}
+        />
+      </Animated.View>
     </TouchableOpacity>
   );
 }
