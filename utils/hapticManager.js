@@ -1,8 +1,28 @@
 import * as Haptics from 'expo-haptics';
+import { Platform } from 'react-native';
 
 class HapticManager {
   constructor() {
     this.isEnabled = true;
+    this.isAvailable = true;
+    this.checkAvailability();
+  }
+
+  /**
+   * Check if haptics are available on this device
+   */
+  async checkAvailability() {
+    try {
+      // On iOS, haptics require device support
+      if (Platform.OS === 'ios') {
+        // Try a light haptic to test availability
+        await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      }
+      this.isAvailable = true;
+    } catch (error) {
+      console.warn('Haptic feedback not available on this device');
+      this.isAvailable = false;
+    }
   }
 
   /**
@@ -17,7 +37,7 @@ class HapticManager {
    * Light haptic feedback for regular touches
    */
   async light() {
-    if (!this.isEnabled) return;
+    if (!this.isEnabled || !this.isAvailable) return;
     
     try {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -30,7 +50,7 @@ class HapticManager {
    * Medium haptic feedback
    */
   async medium() {
-    if (!this.isEnabled) return;
+    if (!this.isEnabled || !this.isAvailable) return;
     
     try {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -43,7 +63,7 @@ class HapticManager {
    * Heavy haptic feedback for important events
    */
   async heavy() {
-    if (!this.isEnabled) return;
+    if (!this.isEnabled || !this.isAvailable) return;
     
     try {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
@@ -56,7 +76,7 @@ class HapticManager {
    * Success notification haptic
    */
   async success() {
-    if (!this.isEnabled) return;
+    if (!this.isEnabled || !this.isAvailable) return;
     
     try {
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -69,7 +89,7 @@ class HapticManager {
    * Warning notification haptic
    */
   async warning() {
-    if (!this.isEnabled) return;
+    if (!this.isEnabled || !this.isAvailable) return;
     
     try {
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
@@ -82,7 +102,7 @@ class HapticManager {
    * Error notification haptic (strong vibration)
    */
   async error() {
-    if (!this.isEnabled) return;
+    if (!this.isEnabled || !this.isAvailable) return;
     
     try {
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
@@ -95,7 +115,7 @@ class HapticManager {
    * Selection haptic for UI interactions
    */
   async selection() {
-    if (!this.isEnabled) return;
+    if (!this.isEnabled || !this.isAvailable) return;
     
     try {
       await Haptics.selectionAsync();

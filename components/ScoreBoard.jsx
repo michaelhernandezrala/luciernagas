@@ -1,16 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { fontSize, spacing, moderateScale, fontFamily } from '../utils/responsive';
 
-export default function ScoreBoard({ currentScore, currentLevel, highScore, onPause }) {
+export default function ScoreBoard({ currentScore, currentLevel, highScore }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        {/* Pause Button */}
-        <TouchableOpacity style={styles.pauseButton} onPress={onPause} activeOpacity={0.7}>
-          <Text style={styles.pauseIcon}>⏸️</Text>
-        </TouchableOpacity>
-
         {/* Left: Current Score */}
         <View style={styles.statContainer}>
           <Text style={styles.statLabel}>Puntos</Text>
@@ -35,33 +31,16 @@ export default function ScoreBoard({ currentScore, currentLevel, highScore, onPa
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(10, 14, 39, 0.9)',
-    borderBottomWidth: 2,
-    borderBottomColor: 'rgba(255, 215, 0, 0.3)',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.2)',
   },
   content: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    position: 'relative',
-  },
-  pauseButton: {
-    position: 'absolute',
-    left: 15,
-    top: 15,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(160, 160, 255, 0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: 'rgba(160, 160, 255, 0.4)',
-  },
-  pauseIcon: {
-    fontSize: 20,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.lg,
   },
   statContainer: {
     alignItems: 'center',
@@ -70,27 +49,30 @@ const styles = StyleSheet.create({
   centerStat: {
     borderLeftWidth: 1,
     borderRightWidth: 1,
-    borderColor: 'rgba(255, 215, 0, 0.2)',
+    borderColor: 'rgba(255, 255, 255, 0.2)',
   },
   statLabel: {
-    fontSize: 12,
-    color: '#a0a0ff',
+    fontSize: fontSize.small,
+    color: 'rgba(255, 255, 255, 0.8)',
     textTransform: 'uppercase',
     letterSpacing: 1,
-    marginBottom: 4,
+    marginBottom: spacing.xs,
+    fontWeight: '600',
+    fontFamily: fontFamily.regular,
   },
   statValue: {
-    fontSize: 24,
+    fontSize: fontSize.xlarge,
     fontWeight: 'bold',
-    color: '#ffd700',
+    color: '#ffffff',
+    fontFamily: fontFamily.regular,
   },
   levelValue: {
-    fontSize: 28,
-    textShadowColor: '#ff6b00',
+    fontSize: fontSize.xxlarge,
+    textShadowColor: 'rgba(255, 255, 255, 0.5)',
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 10,
   },
   highScoreValue: {
-    color: '#a0a0ff',
+    color: 'rgba(255, 215, 0, 0.9)',
   },
 });

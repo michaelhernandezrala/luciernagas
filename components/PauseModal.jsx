@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import { fontSize, spacing, moderateScale, fontFamily } from '../utils/responsive';
 
 export default function PauseModal({ visible, onContinue, onRestart, onQuit }) {
   return (
@@ -11,31 +12,36 @@ export default function PauseModal({ visible, onContinue, onRestart, onQuit }) {
     >
       <View style={styles.overlay}>
         <View style={styles.modalContainer}>
-          <Text style={styles.title}>⏸️ Pausa</Text>
+          <Text style={styles.title}>PAUSA</Text>
           
-          <TouchableOpacity
-            style={[styles.button, styles.continueButton]}
-            onPress={onContinue}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.buttonText}>▶️ Continuar</Text>
-          </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={[styles.button, styles.continueButton]}
+              onPress={onContinue}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.emoji}>▶️</Text>
+              <Text style={styles.buttonText}>Continuar</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[styles.button, styles.restartButton]}
-            onPress={onRestart}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.buttonText}>🔄 Reiniciar</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.restartButton]}
+              onPress={onRestart}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.emoji}>🔄</Text>
+              <Text style={styles.buttonText}>Reiniciar</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[styles.button, styles.quitButton]}
-            onPress={onQuit}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.buttonText}>🏠 Salir al Menú</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.quitButton]}
+              onPress={onQuit}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.emoji}>🏠</Text>
+              <Text style={styles.buttonText}>Menú Principal</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </Modal>
@@ -45,54 +51,67 @@ export default function PauseModal({ visible, onContinue, onRestart, onQuit }) {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalContainer: {
     backgroundColor: '#1a1d3d',
-    borderRadius: 20,
-    padding: 30,
-    width: '80%',
-    maxWidth: 350,
-    borderWidth: 2,
+    borderRadius: moderateScale(24),
+    padding: spacing.xl,
+    width: '85%',
+    maxWidth: moderateScale(400),
+    borderWidth: 3,
     borderColor: '#a0a0ff',
     shadowColor: '#a0a0ff',
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 20,
-    elevation: 10,
+    shadowOpacity: 0.6,
+    shadowRadius: 30,
+    elevation: 15,
   },
   title: {
-    fontSize: 32,
+    fontSize: fontSize.xxlarge,
     fontWeight: 'bold',
     color: '#ffffff',
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: spacing.lg,
+    letterSpacing: 3,
+    fontFamily: fontFamily.regular,
+  },
+  buttonContainer: {
+    marginTop: spacing.md,
   },
   button: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 15,
-    marginVertical: 8,
-    borderWidth: 2,
+    paddingVertical: spacing.lg,
+    paddingHorizontal: spacing.lg,
+    borderRadius: moderateScale(16),
+    borderWidth: 3,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: spacing.md,
   },
   continueButton: {
     backgroundColor: '#00FF88',
-    borderColor: '#00FF88',
+    borderColor: '#00CC6A',
   },
   restartButton: {
     backgroundColor: '#FFD700',
-    borderColor: '#FFD700',
+    borderColor: '#FFC700',
   },
   quitButton: {
-    backgroundColor: 'transparent',
-    borderColor: '#a0a0ff',
+    backgroundColor: '#FF6B6B',
+    borderColor: '#FF5252',
+  },
+  emoji: {
+    fontSize: fontSize.xlarge,
+    marginRight: spacing.sm,
+    fontFamily: fontFamily.regular,
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: fontSize.large,
     fontWeight: 'bold',
     color: '#0a0e27',
-    textAlign: 'center',
+    fontFamily: fontFamily.regular,
   },
 });

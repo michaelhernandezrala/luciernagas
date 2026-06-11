@@ -1,9 +1,11 @@
-import { Audio } from 'expo-audio';
+// Audio Manager - Simplified version without sound files
+// TODO: Re-enable once expo-audio is properly configured
 
 class AudioManager {
   constructor() {
-    this.sounds = [];
+    this.sounds = {};
     this.isInitialized = false;
+    this.isEnabled = false; // Temporarily disabled until expo-audio is stable
   }
 
   /**
@@ -11,91 +13,56 @@ class AudioManager {
    */
   async initialize() {
     try {
-      // expo-audio handles audio mode automatically
       this.isInitialized = true;
+      // Temporarily disabled - expo-audio needs proper setup
+      console.log('Audio system initialized (sounds temporarily disabled)');
     } catch (error) {
       console.error('Error initializing audio:', error);
     }
   }
 
   /**
-   * Load sound files for each firefly
-   * @param {Array} soundFiles - Array of sound file URIs or require() paths
+   * Load sounds (placeholder)
    */
-  async loadSounds(soundFiles) {
-    try {
-      this.sounds = [];
-      
-      for (const soundFile of soundFiles) {
-        // expo-audio uses Audio.Sound.create instead of createAsync
-        const sound = await Audio.Sound.create(soundFile);
-        this.sounds.push(sound);
-      }
-    } catch (error) {
-      console.error('Error loading sounds:', error);
-    }
+  async loadSounds() {
+    // Temporarily disabled
+    return;
   }
 
   /**
    * Play sound for a specific firefly
-   * @param {number} fireflyId - ID of the firefly
    */
   async playSound(fireflyId) {
-    if (!this.isInitialized || !this.sounds[fireflyId]) {
-      return;
-    }
-
-    try {
-      const sound = this.sounds[fireflyId];
-      // expo-audio uses replay() method
-      await sound.replayAsync();
-    } catch (error) {
-      console.error('Error playing sound:', error);
-    }
-  }
-
-  /**
-   * Play a generic beep sound (fallback when no sounds loaded)
-   * Uses simple tone generation or a default sound
-   */
-  async playBeep(frequency = 440, duration = 200) {
-    // This is a placeholder - in a real implementation, you would:
-    // 1. Generate a tone programmatically, or
-    // 2. Use pre-recorded beep files
-    // For now, we'll just use the first loaded sound if available
-    if (this.sounds.length > 0) {
-      await this.playSound(0);
-    }
+    // Temporarily disabled - visual feedback only
+    return;
   }
 
   /**
    * Play error sound
    */
   async playErrorSound() {
-    // Play a lower frequency or specific error sound
-    await this.playBeep(200, 500);
+    return;
   }
 
   /**
    * Play success sound
    */
   async playSuccessSound() {
-    // Play a higher frequency or specific success sound
-    await this.playBeep(800, 300);
+    return;
   }
 
   /**
-   * Cleanup and unload all sounds
+   * Play level up sound
    */
-  async unloadSounds() {
-    try {
-      for (const sound of this.sounds) {
-        await sound.unloadAsync();
-      }
-      this.sounds = [];
-    } catch (error) {
-      console.error('Error unloading sounds:', error);
-    }
+  async playLevelUpSound() {
+    return;
+  }
+
+  /**
+   * Cleanup
+   */
+  async cleanup() {
+    return;
   }
 }
 

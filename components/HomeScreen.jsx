@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DIFFICULTY_LEVELS } from '../utils/constants';
-
-const { width } = Dimensions.get('window');
+import { fontSize, spacing, moderateScale, SCREEN_WIDTH, fontFamily } from '../utils/responsive';
+import Background from './Background';
 
 export default function HomeScreen({ onStartGame, highScores }) {
-  const [selectedDifficulty, setSelectedDifficulty] = useState(DIFFICULTY_LEVELS.MEDIUM);
-
   const handleDifficultySelect = (difficulty) => {
     console.log('Difficulty selected:', difficulty.name);
-    setSelectedDifficulty(difficulty);
+    // Auto-start game when selecting difficulty
+    onStartGame(difficulty);
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <Background>
+      <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>🔥 Luciérnagas 🔥</Text>
+          <Text style={styles.title}>✨ FlashFly ✨</Text>
           <Text style={styles.subtitle}>Juego de Memoria</Text>
         </View>
 
@@ -27,7 +27,6 @@ export default function HomeScreen({ onStartGame, highScores }) {
           <Text style={styles.sectionTitle}>Selecciona Dificultad</Text>
           <View style={styles.difficultyGrid}>
             {Object.values(DIFFICULTY_LEVELS).map((difficulty) => {
-              const isSelected = selectedDifficulty.id === difficulty.id;
               const highScore = highScores[difficulty.id] || 0;
               
               return (
@@ -35,7 +34,6 @@ export default function HomeScreen({ onStartGame, highScores }) {
                   key={difficulty.id}
                   style={[
                     styles.difficultyCard,
-                    isSelected && styles.difficultyCardSelected,
                     { borderColor: difficulty.color }
                   ]}
                   onPress={() => handleDifficultySelect(difficulty)}
@@ -44,7 +42,7 @@ export default function HomeScreen({ onStartGame, highScores }) {
                   accessibilityLabel={`Seleccionar dificultad ${difficulty.name}`}
                 >
                   <Text style={styles.difficultyEmoji}>{difficulty.emoji}</Text>
-                  <Text style={[styles.difficultyName, isSelected && styles.difficultyNameSelected]}>
+                  <Text style={styles.difficultyName}>
                     {difficulty.name}
                   </Text>
                   <Text style={styles.difficultyInfo}>
@@ -71,17 +69,6 @@ export default function HomeScreen({ onStartGame, highScores }) {
           </Text>
         </View>
 
-        {/* Start Button */}
-        <TouchableOpacity 
-          style={[styles.startButton, { backgroundColor: selectedDifficulty.color }]}
-          onPress={() => onStartGame(selectedDifficulty)}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.startButtonText}>
-            COMENZAR {selectedDifficulty.emoji}
-          </Text>
-        </TouchableOpacity>
-
         {/* Footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>
@@ -89,134 +76,120 @@ export default function HomeScreen({ onStartGame, highScores }) {
           </Text>
         </View>
       </View>
-    </SafeAreaView>
-  );
+    </SafeAreaView>    </Background>  );
 }
+
+const cardWidth = (SCREEN_WIDTH - spacing.xl * 3) / 2;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a0e27',
   },
   content: {
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 40,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.xl,
   },
   header: {
     alignItems: 'center',
-    marginTop: 20,
   },
   title: {
-    fontSize: width > 375 ? 48 : 40,
+    fontSize: fontSize.huge,
     fontWeight: 'bold',
     color: '#ffd700',
     textShadowColor: '#ff6b00',
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 20,
-    marginBottom: 10,
+    marginBottom: spacing.sm,
+    fontFamily: fontFamily.regular,
   },
   subtitle: {
-    fontSize: 20,
+    fontSize: fontSize.large,
     color: '#a0a0ff',
     fontWeight: '300',
+    fontFamily: fontFamily.regular,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: fontSize.medium,
     color: '#a0a0ff',
     fontWeight: '600',
     textAlign: 'center',
-    marginBottom: 15,
+    marginBottom: spacing.md,
     textTransform: 'uppercase',
     letterSpacing: 1,
+    fontFamily: fontFamily.regular,
   },
   difficultyContainer: {
     width: '100%',
-    paddingHorizontal: 10,
   },
   difficultyGrid: {
     flexDirection: 'row',
-    alignItems: 'center',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   difficultyCard: {
-    width: (width - 60) / 2,
+    width: cardWidth,
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderRadius: 15,
-    borderWidth: 2,
-    padding: 15,
-    alignItems: 'center',
-    minHeight: 120,
-    margin: 5,
-  },
-  difficultyCardSelected: {
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderRadius: moderateScale(15),
     borderWidth: 3,
+    padding: spacing.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: moderateScale(140),
+    margin: spacing.xs,
   },
   difficultyEmoji: {
-    fontSize: 32,
-    marginBottom: 5,
+    fontSize: fontSize.xxlarge,
+    marginBottom: spacing.xs,
+    fontFamily: fontFamily.regular,
   },
   difficultyName: {
-    fontSize: 16,
+    fontSize: fontSize.large,
     fontWeight: 'bold',
-    color: '#e0e0e0',
-    marginBottom: 5,
-  },
-  difficultyNameSelected: {
     color: '#ffffff',
+    marginBottom: spacing.xs,
+    fontFamily: fontFamily.regular,
   },
   difficultyInfo: {
-    fontSize: 12,
+    fontSize: fontSize.small,
     color: '#a0a0ff',
+    fontFamily: fontFamily.regular,
   },
   miniScore: {
-    marginTop: 5,
+    marginTop: spacing.xs,
     backgroundColor: 'rgba(255, 215, 0, 0.2)',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 10,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: moderateScale(10),
   },
   miniScoreText: {
-    fontSize: 11,
+    fontSize: fontSize.small,
     color: '#ffd700',
     fontWeight: 'bold',
+    fontFamily: fontFamily.regular,
   },
   instructionsContainer: {
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: spacing.lg,
   },
   instructionText: {
-    fontSize: 16,
+    fontSize: fontSize.medium,
     color: '#e0e0e0',
     textAlign: 'center',
-    marginVertical: 5,
-    lineHeight: 24,
-  },
-  startButton: {
-    paddingHorizontal: 60,
-    paddingVertical: 20,
-    borderRadius: 30,
-    shadowColor: '#ffd700',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
-    shadowRadius: 20,
-    elevation: 10,
-  },
-  startButtonText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#0a0e27',
-    letterSpacing: 2,
+    marginVertical: spacing.xs,
+    lineHeight: moderateScale(24),
+    fontFamily: fontFamily.regular,
   },
   footer: {
-    marginBottom: 20,
+    marginBottom: spacing.md,
   },
   footerText: {
-    fontSize: 14,
+    fontSize: fontSize.regular,
     color: '#808080',
     textAlign: 'center',
     fontStyle: 'italic',
+    fontFamily: fontFamily.regular,
   },
 });

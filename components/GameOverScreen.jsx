@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-const { width } = Dimensions.get('window');
+import { fontSize, spacing, moderateScale, fontFamily } from '../utils/responsive';
+import Background from './Background';
 
 export default function GameOverScreen({ score, highScore, isNewRecord, onRestart, onHome, difficulty }) {
   return (
-    <SafeAreaView style={styles.container}>
+    <Background>
+      <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         {/* Game Over Title */}
         <View style={styles.header}>
@@ -71,103 +72,108 @@ export default function GameOverScreen({ score, highScore, isNewRecord, onRestar
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
-  );
+    </SafeAreaView>    </Background>  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a0e27',
   },
   content: {
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 40,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.xl,
   },
   header: {
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: spacing.lg,
   },
   title: {
-    fontSize: width > 375 ? 36 : 30,
+    fontSize: fontSize.xxlarge,
     fontWeight: 'bold',
     color: '#a0a0ff',
     textAlign: 'center',
+    fontFamily: fontFamily.regular,
   },
   difficultyBadge: {
-    fontSize: 16,
+    fontSize: fontSize.medium,
     color: '#a0a0ff',
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: spacing.sm,
     fontWeight: '600',
+    fontFamily: fontFamily.regular,
   },
   scoreContainer: {
     alignItems: 'center',
-    paddingVertical: 20,
+    paddingVertical: spacing.lg,
   },
   scoreLabel: {
-    fontSize: 18,
+    fontSize: fontSize.large,
     color: '#e0e0e0',
-    marginBottom: 10,
+    marginBottom: spacing.sm,
+    fontFamily: fontFamily.regular,
   },
   scoreValue: {
-    fontSize: 72,
+    fontSize: moderateScale(72),
     fontWeight: 'bold',
     color: '#ffd700',
     textShadowColor: '#ff6b00',
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 20,
+    fontFamily: fontFamily.regular,
   },
   newRecordBadge: {
     backgroundColor: 'rgba(255, 215, 0, 0.2)',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 20,
-    marginTop: 15,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
+    borderRadius: moderateScale(20),
+    marginTop: spacing.md,
     borderWidth: 2,
     borderColor: '#ffd700',
   },
   newRecordText: {
-    fontSize: 16,
+    fontSize: fontSize.medium,
     fontWeight: 'bold',
     color: '#ffd700',
     textAlign: 'center',
+    fontFamily: fontFamily.regular,
   },
   highScoreContainer: {
     alignItems: 'center',
   },
   highScoreLabel: {
-    fontSize: 14,
+    fontSize: fontSize.regular,
     color: '#a0a0ff',
-    marginBottom: 5,
+    marginBottom: spacing.xs,
+    fontFamily: fontFamily.regular,
   },
   highScoreValue: {
-    fontSize: 28,
+    fontSize: fontSize.xxlarge,
     fontWeight: 'bold',
     color: '#a0a0ff',
+    fontFamily: fontFamily.regular,
   },
   messageContainer: {
-    paddingHorizontal: 30,
+    paddingHorizontal: spacing.xl,
   },
   messageText: {
-    fontSize: 18,
+    fontSize: fontSize.large,
     color: '#e0e0e0',
     textAlign: 'center',
     fontStyle: 'italic',
+    fontFamily: fontFamily.regular,
   },
   buttonsContainer: {
     width: '100%',
     alignItems: 'center',
-    gap: 15,
   },
   restartButton: {
     backgroundColor: '#ffd700',
-    paddingHorizontal: 40,
-    paddingVertical: 18,
-    borderRadius: 30,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.lg,
+    borderRadius: moderateScale(30),
     width: '80%',
     alignItems: 'center',
     shadowColor: '#ffd700',
@@ -175,27 +181,30 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 15,
     elevation: 10,
+    marginBottom: spacing.md,
   },
   restartButtonText: {
-    fontSize: 18,
+    fontSize: fontSize.large,
     fontWeight: 'bold',
     color: '#0a0e27',
     letterSpacing: 1,
+    fontFamily: fontFamily.regular,
   },
   homeButton: {
     backgroundColor: 'transparent',
-    paddingHorizontal: 40,
-    paddingVertical: 18,
-    borderRadius: 30,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.lg,
+    borderRadius: moderateScale(30),
     width: '80%',
     alignItems: 'center',
     borderWidth: 2,
     borderColor: '#a0a0ff',
   },
   homeButtonText: {
-    fontSize: 18,
+    fontSize: fontSize.large,
     fontWeight: 'bold',
     color: '#a0a0ff',
     letterSpacing: 1,
+    fontFamily: fontFamily.regular,
   },
 });

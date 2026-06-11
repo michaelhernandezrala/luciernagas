@@ -1,0 +1,20 @@
+PAQUETE DE ANIMALES · 10 sonidos MP3 + 10 dibujos SVG (estilo kawaii)
+=====================================================================
+
+dibujos_svg/   Dibujos vectoriales originales (512x512, escalables sin pérdida):
+               pollito, gato, rana, buho, perro, vaca, abeja, grillo, lobo y luciernaga ✨
+
+sonidos_mp3/   Un sonido por animal (192 kbps, mono, 1-3 s), con el mismo nombre
+               de archivo que su dibujo para emparejarlos fácilmente.
+
+Notas:
+- Los sonidos están sintetizados digitalmente (estilo "dibujo animado"), por lo
+  que están libres de derechos: puedes usarlos y modificarlos sin restricciones.
+- Las luciérnagas en realidad no emiten sonido: su MP3 es un destello mágico
+  de campanitas, a juego con su farolillo luminoso.
+- Los SVG usan formas planas y se pueden recolorear editando los códigos de
+  color hexadecimales en el propio archivo.
+
+- sonidos_mp3/jungla_intro.mp3: ambiente de jungla estéreo (8 s) para la
+  pantalla de inicio: cigarras, hojas, pájaros tropicales, loro, monos y rana,
+  con fundido de entrada y salida.

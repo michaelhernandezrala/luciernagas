@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, Animated } from 'react-native';
+import { View, Text, StyleSheet, Animated, TouchableOpacity } from 'react-native';
 import ScoreBoard from './ScoreBoard';
 import FireflyGrid from './FireflyGrid';
 import PauseModal from './PauseModal';
+import Background from './Background';
 import { playSequenceAnimation, createShakeAnimation } from '../animations/gameAnimations';
 import useGameEngine from '../hooks/useGameEngine';
 import audioManager from '../utils/audioManager';
 import hapticManager from '../utils/hapticManager';
+import { moderateScale, spacing } from '../utils/responsive';
 
 export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
   const [isPaused, setIsPaused] = useState(false);
@@ -84,8 +86,7 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
     // Haptic feedback
     hapticManager.fireflyTouch();
     
-    // Play sound
-    audioManager.playSound(fireflyId);
+    // NO sound on user click - only during sequence
     
     // Process input
     const result = handleUserInput(fireflyId);
@@ -128,13 +129,24 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
   };
 
   return (
-    <View style={styles.container}>
-      <ScoreBoard 
-        currentScore={score}
-        currentLevel={currentLevel}
-        highScore={0}
-        onPause={handlePause}
-      />
+    <Background>
+      <View style={styles.container}>
+        {/* Menu Burger Button */}
+        <TouchableOpacity 
+          style={styles.menuButton} 
+          onPress={handlePause}
+          activeOpacity={0.8}
+        >
+          <View style={styles.burgerLine} />
+          <View style={styles.burgerLine} />
+          <View style={styles.burgerLine} />
+        </TouchableOpacity>
+
+        <ScoreBoard 
+          currentScore={score}
+          currentLevel={currentLevel}
+          highScore={0}
+        />
       
       <Animated.View style={[styles.gameArea, animatedStyle]}>
         <FireflyGrid
@@ -145,21 +157,23 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
         />
       </Animated.View>
 
-      {/* Status indicator */}
-      <View style={styles.statusContainer}>
-        {isPlayingSequence && (
-          <View style={styles.statusBadge}>
-            <View style={styles.statusDot} />
-            <Text style={styles.statusText}>Observa la secuencia...</Text>
-          </View>
-        )}
-        {isUserTurn && (
-          <View style={[styles.statusBadge, styles.statusBadgeActive]}>
-            <View style={[styles.statusDot, styles.statusDotActive]} />
-            <Text style={styles.statusText}>¡Tu turno!</Text>
-          </View>
-        )}
-      </View>
+      {/* Status indicator - Fixed position */}
+      {(isPlayingSequence || isUserTurn) && (
+        <View style={styles.statusContainer}>
+          {isPlayingSequence && (
+            <View style={styles.statusBadge}>
+              <View style={styles.statusDot} />
+              <Text style={styles.statusText}>Observa la secuencia...</Text>
+            </View>
+          )}
+          {isUserTurn && (
+            <View style={[styles.statusBadge, styles.statusBadgeActive]}>
+              <View style={[styles.statusDot, styles.statusDotActive]} />
+              <Text style={styles.statusText}>¡Tu turno!</Text>
+            </View>
+          )}
+        </View>
+      )}
 
       <PauseModal
         visible={isPaused}
@@ -167,14 +181,40 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
         onRestart={handleRestartFromPause}
         onQuit={handleQuitFromPause}
       />
-    </View>
+      </View>
+    </Background>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a0e27',
+  },
+  menuButton: {
+    position: 'absolute',
+    top: spacing.xl,
+    left: spacing.lg,
+    width: moderateScale(44),
+    height: moderateScale(44),
+    borderRadius: moderateScale(22),
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    zIndex: 100,
+  },
+  burgerLine: {
+    width: moderateScale(20),
+    height: moderateScale(3),
+    backgroundColor: '#ffffff',
+    borderRadius: moderateScale(2),
+    marginVertical: moderateScale(2),
   },
   gameArea: {
     flex: 1,
@@ -182,8 +222,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statusContainer: {
-    paddingVertical: 20,
+    position: 'absolute',
+    bottom: spacing.xxl,
+    left: 0,
+    right: 0,
     alignItems: 'center',
+    zIndex: 10,
   },
   statusBadge: {
     flexDirection: 'row',
@@ -213,5 +257,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#e0e0e0',
     fontWeight: '600',
+    fontFamily: fontFamily.regular,
   },
 });

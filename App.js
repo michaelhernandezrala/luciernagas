@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import HomeScreen from './components/HomeScreen';
 import GameScreen from './components/GameScreen';
 import GameOverScreen from './components/GameOverScreen';
+import FontLoader from './components/FontLoader';
 import audioManager from './utils/audioManager';
 import { STORAGE_KEYS, DIFFICULTY_LEVELS } from './utils/constants';
 
@@ -100,37 +101,39 @@ export default function App() {
   };
 
   return (
-    <SafeAreaProvider>
-      <View style={styles.container}>
-        <StatusBar style="light" />
-        
-        {currentScreen === SCREENS.HOME && (
-          <HomeScreen 
-            onStartGame={handleStartGame}
-            highScores={highScores}
-          />
-        )}
-        
-        {currentScreen === SCREENS.GAME && currentDifficulty && (
-          <GameScreen 
-            onGameOver={handleGameOver}
-            onQuitToMenu={handleGoHome}
-            difficulty={currentDifficulty}
-          />
-        )}
-        
-        {currentScreen === SCREENS.GAME_OVER && (
-          <GameOverScreen
-            score={lastScore}
-            highScore={highScores[currentDifficulty?.id] || 0}
-            isNewRecord={isNewRecord}
-            onRestart={handleRestart}
-            onHome={handleGoHome}
-            difficulty={currentDifficulty}
-          />
-        )}
-      </View>
-    </SafeAreaProvider>
+    <FontLoader>
+      <SafeAreaProvider>
+        <View style={styles.container}>
+          <StatusBar style="light" />
+          
+          {currentScreen === SCREENS.HOME && (
+            <HomeScreen 
+              onStartGame={handleStartGame}
+              highScores={highScores}
+            />
+          )}
+          
+          {currentScreen === SCREENS.GAME && currentDifficulty && (
+            <GameScreen 
+              onGameOver={handleGameOver}
+              onQuitToMenu={handleGoHome}
+              difficulty={currentDifficulty}
+            />
+          )}
+          
+          {currentScreen === SCREENS.GAME_OVER && (
+            <GameOverScreen
+              score={lastScore}
+              highScore={highScores[currentDifficulty?.id] || 0}
+              isNewRecord={isNewRecord}
+              onRestart={handleRestart}
+              onHome={handleGoHome}
+              difficulty={currentDifficulty}
+            />
+          )}
+        </View>
+      </SafeAreaProvider>
+    </FontLoader>
   );
 }
 

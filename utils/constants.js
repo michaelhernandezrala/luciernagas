@@ -38,25 +38,25 @@ export const DIFFICULTY_LEVELS = {
   },
 };
 
-// Color palette
+// Color palette with animals
 export const COLORS = {
   background: {
     start: '#0a0e27',
     end: '#1a1d3d',
   },
   fireflies: [
-    '#FFD700', // Gold
-    '#FFBF00', // Amber
-    '#00FFFF', // Cyan
-    '#FF1493', // Deep Pink
-    '#00FF88', // Spring Green
-    '#FF6347', // Tomato
-    '#9D00FF', // Purple
-    '#CCFF00', // Lime
-    '#FF69B4', // Hot Pink
-    '#00CED1', // Dark Turquoise
-    '#FFB6C1', // Light Pink
-    '#98FB98', // Pale Green
+    { color: '#FFD700', animal: '🐶', name: 'Perro', sound: 'perro' },
+    { color: '#FF6347', animal: '🐱', name: 'Gato', sound: 'gato' },
+    { color: '#98FB98', animal: '🐮', name: 'Vaca', sound: 'vaca' },
+    { color: '#FFBF00', animal: '🦉', name: 'Búho', sound: 'buho' },
+    { color: '#CCFF00', animal: '🐝', name: 'Abeja', sound: 'abeja' },
+    { color: '#FF1493', animal: '🐺', name: 'Lobo', sound: 'lobo' },
+    { color: '#00CED1', animal: '🐸', name: 'Rana', sound: 'rana' },
+    { color: '#FFB6C1', animal: '🐛', name: 'Grillo', sound: 'grillo' },
+    { color: '#9D00FF', animal: '🐥', name: 'Pollito', sound: 'pollito' },
+    { color: '#FF8C00', animal: '✨', name: 'Luciérnaga', sound: 'luciernaga' },
+    { color: '#00FFFF', animal: '🌟', name: 'Estrella', sound: 'luciernaga' },
+    { color: '#8B4513', animal: '🦗', name: 'Grillo', sound: 'grillo' },
   ],
   ui: {
     accent: '#FFD700',
