@@ -37,6 +37,7 @@ export default function FireflyGrid({
               id={id}
               color={animalData.color}
               animal={animalData.animal}
+              image={animalData.image}
               onPress={onFireflyPress}
               isActive={currentlyPlaying === id}
               disabled={disabled}

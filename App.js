@@ -118,6 +118,7 @@ export default function App() {
               onGameOver={handleGameOver}
               onQuitToMenu={handleGoHome}
               difficulty={currentDifficulty}
+              highScore={highScores[currentDifficulty.id] || 0}
             />
           )}
           

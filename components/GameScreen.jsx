@@ -8,10 +8,11 @@ import { playSequenceAnimation, createShakeAnimation } from '../animations/gameA
 import useGameEngine from '../hooks/useGameEngine';
 import audioManager from '../utils/audioManager';
 import hapticManager from '../utils/hapticManager';
-import { moderateScale, spacing, fontFamily } from '../utils/responsive';
+import { moderateScale, spacing, fontFamily, fontSize } from '../utils/responsive';
 
-export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
+export default function GameScreen({ onGameOver, onQuitToMenu, difficulty, highScore = 0 }) {
   const [isPaused, setIsPaused] = useState(false);
+  const [selectedAnimalName, setSelectedAnimalName] = useState(null);
   const shakeAnim = useRef(new Animated.Value(0)).current;
   
   // Calculate initial number of fireflies
@@ -32,14 +33,8 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
     setCurrentFirefly,
   } = useGameEngine(initialFireflies);
   
-  // Calculate current number of fireflies based on level
-  const getCurrentFireflyCount = () => {
-    const addedButtons = Math.floor((currentLevel - 1) / 5);
-    const currentCount = difficulty.initialButtons + addedButtons;
-    return Math.min(currentCount, difficulty.maxButtons);
-  };
-
-  const numberOfFireflies = getCurrentFireflyCount();
+  // Fixed number of fireflies - no progression
+  const numberOfFireflies = difficulty.initialButtons;
 
   // Start game on mount
   useEffect(() => {
@@ -57,7 +52,11 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
         (fireflyId) => {
           audioManager.playSound(fireflyId);
         },
-        difficulty.speed
+        difficulty.speed,
+        () => {
+          // Stop all sounds when animation completes
+          audioManager.stopAllSounds();
+        }
       );
     }
   }, [isPlayingSequence, sequence, setCurrentFirefly, finishPlayingSequence, difficulty.speed]);
@@ -82,6 +81,12 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
     if (!isUserTurn || isPlayingSequence || isPaused) {
       return;
     }
+
+    // Show animal name for educational purposes
+    const { COLORS } = require('../utils/constants');
+    const animalData = COLORS.fireflies[fireflyId % COLORS.fireflies.length];
+    setSelectedAnimalName(animalData.name);
+    setTimeout(() => setSelectedAnimalName(null), 1000);
 
     // Haptic feedback
     hapticManager.fireflyTouch();
@@ -134,21 +139,30 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
         <ScoreBoard 
           currentScore={score}
           currentLevel={currentLevel}
-          highScore={0}
+          highScore={highScore}
         />
 
         {/* Menu Burger Button - Below ScoreBoard */}
-        <TouchableOpacity 
-          style={styles.menuButton} 
-          onPress={handlePause}
-          activeOpacity={0.8}
-        >
-          <View style={styles.burgerLine} />
-          <View style={styles.burgerLine} />
-          <View style={styles.burgerLine} />
-        </TouchableOpacity>
+        <View style={styles.menuButtonContainer}>
+          <TouchableOpacity 
+            style={styles.menuButton} 
+            onPress={handlePause}
+            activeOpacity={0.8}
+          >
+            <View style={styles.burgerLine} />
+            <View style={styles.burgerLine} />
+            <View style={styles.burgerLine} />
+          </TouchableOpacity>
+        </View>
       
       <Animated.View style={[styles.gameArea, animatedStyle]}>
+        {/* Animal name display - Educational */}
+        {selectedAnimalName && (
+          <View style={styles.animalNameContainer}>
+            <Text style={styles.animalNameText}>{selectedAnimalName}</Text>
+          </View>
+        )}
+        
         <FireflyGrid
           numberOfFireflies={numberOfFireflies}
           onFireflyPress={handleFireflyPress}
@@ -190,10 +204,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  menuButtonContainer: {
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
+    alignItems: 'flex-start',
+  },
   menuButton: {
-    position: 'absolute',
-    top: 110, // Below ScoreBoard
-    left: spacing.lg,
     width: moderateScale(44),
     height: moderateScale(44),
     borderRadius: moderateScale(22),
@@ -207,7 +223,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    zIndex: 1, // Lower z-index
   },
   burgerLine: {
     width: moderateScale(20),
@@ -220,6 +235,30 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  animalNameContainer: {
+    position: 'absolute',
+    top: spacing.xl,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    zIndex: 100,
+  },
+  animalNameText: {
+    fontSize: fontSize.xxlarge,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.md,
+    borderRadius: moderateScale(20),
+    borderWidth: 3,
+    borderColor: '#ffd700',
+    textAlign: 'center',
+    fontFamily: fontFamily.title,
+    textShadowColor: '#ffd700',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 10,
   },
   statusContainer: {
     position: 'absolute',

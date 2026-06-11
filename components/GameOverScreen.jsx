@@ -93,15 +93,15 @@ const styles = StyleSheet.create({
     marginTop: spacing.lg,
   },
   title: {
-    fontSize: fontSize.xxlarge,
+    fontSize: fontSize.xlarge,
     fontWeight: 'bold',
-    color: '#a0a0ff',
+    color: '#ffffff',
     textAlign: 'center',
     fontFamily: fontFamily.title,
   },
   difficultyBadge: {
     fontSize: fontSize.medium,
-    color: '#a0a0ff',
+    color: '#ffffff',
     textAlign: 'center',
     marginTop: spacing.sm,
     fontWeight: '600',
@@ -113,12 +113,12 @@ const styles = StyleSheet.create({
   },
   scoreLabel: {
     fontSize: fontSize.large,
-    color: '#e0e0e0',
+    color: '#ffffff',
     marginBottom: spacing.sm,
     fontFamily: fontFamily.text,
   },
   scoreValue: {
-    fontSize: moderateScale(72),
+    fontSize: moderateScale(48),
     fontWeight: 'bold',
     color: '#ffd700',
     textShadowColor: '#ff6b00',
@@ -147,14 +147,14 @@ const styles = StyleSheet.create({
   },
   highScoreLabel: {
     fontSize: fontSize.regular,
-    color: '#a0a0ff',
+    color: '#ffffff',
     marginBottom: spacing.xs,
     fontFamily: fontFamily.text,
   },
   highScoreValue: {
-    fontSize: fontSize.xxlarge,
+    fontSize: fontSize.xlarge,
     fontWeight: 'bold',
-    color: '#a0a0ff',
+    color: '#ffffff',
     fontFamily: fontFamily.title,
   },
   messageContainer: {
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
   messageText: {
     fontSize: fontSize.large,
-    color: '#e0e0e0',
+    color: '#ffffff',
     textAlign: 'center',
     fontStyle: 'italic',
     fontFamily: fontFamily.text,
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   restartButtonText: {
-    fontSize: fontSize.large,
+    fontSize: fontSize.medium,
     fontWeight: 'bold',
     color: '#0a0e27',
     letterSpacing: 1,
@@ -203,9 +203,9 @@ const styles = StyleSheet.create({
     borderColor: '#a0a0ff',
   },
   homeButtonText: {
-    fontSize: fontSize.large,
+    fontSize: fontSize.medium,
     fontWeight: 'bold',
-    color: '#a0a0ff',
+    color: '#ffffff',
     letterSpacing: 1,
     fontFamily: fontFamily.title,
   },

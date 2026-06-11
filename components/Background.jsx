@@ -1,27 +1,33 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ImageBackground } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SvgXml } from 'react-native-svg';
 
-// Note: SVG as background - if fondo_inicio.svg is too large, 
-// we'll use gradient overlay for better performance
 export default function Background({ children }) {
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={['rgba(30, 58, 138, 0.85)', 'rgba(124, 58, 237, 0.85)', 'rgba(236, 72, 153, 0.85)']}
-        style={styles.gradient}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+      <ImageBackground
+        source={require('../assets/fondo_inicio.png')}
+        style={styles.backgroundImage}
+        resizeMode="cover"
       >
-        {children}
-      </LinearGradient>
+        <LinearGradient
+          colors={['rgba(30, 58, 138, 0.5)', 'rgba(124, 58, 237, 0.5)', 'rgba(236, 72, 153, 0.5)']}
+          style={styles.gradient}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+        >
+          {children}
+        </LinearGradient>
+      </ImageBackground>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  backgroundImage: {
     flex: 1,
   },
   gradient: {

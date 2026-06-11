@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { Animated, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { moderateScale, fontSize, fontFamily } from '../utils/responsive';
 
 const FIREFLY_SIZE = moderateScale(85);
@@ -9,6 +9,7 @@ export default function Firefly({
   id, 
   color, 
   animal,
+  image,
   onPress, 
   isActive, 
   disabled 
@@ -51,7 +52,12 @@ export default function Firefly({
 
   const interpolatedOpacity = glowAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0.4, 1],
+    outputRange: [1, 1],
+  });
+  
+  const interpolatedBrightness = glowAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [1, 1.8],
   });
 
   const interpolatedShadowRadius = glowAnim.interpolate({
@@ -115,7 +121,23 @@ export default function Firefly({
         >
           {/* Inner shadow effect for 3D */}
           <Animated.View style={[styles.innerShadow, { opacity: pressAnim }]} />
-          <Text style={styles.animalEmoji}>{animal}</Text>
+          {/* Brightness overlay when active */}
+          <Animated.View
+            style={[
+              styles.brightnessOverlay,
+              { opacity: glowAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 0.6],
+              })}
+            ]}
+          />
+          {image && (
+            <Image 
+              source={image} 
+              style={styles.animalImage}
+              resizeMode="contain"
+            />
+          )}
         </Animated.View>
       </Animated.View>
     </TouchableOpacity>
@@ -151,8 +173,21 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS,
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
+  brightnessOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: BORDER_RADIUS,
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+  },
+  animalImage: {
+    width: FIREFLY_SIZE * 0.65,
+    height: FIREFLY_SIZE * 0.65,
+  },
   animalEmoji: {
-    fontSize: fontSize.xxlarge,
+    fontSize: fontSize.large,
     fontFamily: fontFamily.title,
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: { width: 1, height: 2 },

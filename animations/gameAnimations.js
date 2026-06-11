@@ -7,13 +7,15 @@ import { Animated } from 'react-native';
  * @param {Function} onComplete - Callback when sequence playback is complete
  * @param {Function} playSound - Optional sound callback
  * @param {number} delayBetween - Delay between each firefly in ms (default 600ms)
+ * @param {Function} onSoundStop - Optional callback to stop sounds after each firefly
  */
 export function playSequenceAnimation(
   sequence, 
   setCurrentFirefly, 
   onComplete, 
   playSound = null,
-  delayBetween = 600
+  delayBetween = 600,
+  onSoundStop = null
 ) {
   if (sequence.length === 0) {
     onComplete();
@@ -27,6 +29,7 @@ export function playSequenceAnimation(
       // Sequence complete - wait a bit before finishing
       setTimeout(() => {
         setCurrentFirefly(null);
+        if (onSoundStop) onSoundStop(); // Stop sounds at the end
         setTimeout(() => {
           onComplete();
         }, 500); // Extra delay to ensure last button is visible
@@ -44,9 +47,10 @@ export function playSequenceAnimation(
 
     currentIndex++;
 
-    // Wait longer to ensure button light is visible
+    // Wait longer to ensure button light is visible, then stop sound
     setTimeout(() => {
       setCurrentFirefly(null);
+      if (onSoundStop) onSoundStop(); // Stop sound when button light turns off
       setTimeout(playNext, 300); // Pause between buttons
     }, delayBetween + 100); // Extra time to see each button
   };

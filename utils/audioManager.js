@@ -13,6 +13,8 @@ const SOUND_FILES = {
   grillo: require('../assets/sounds/sonidos_mp3/grillo.mp3'),
   pollito: require('../assets/sounds/sonidos_mp3/pollito.mp3'),
   luciernaga: require('../assets/sounds/sonidos_mp3/luciernaga.mp3'),
+  error: require('../assets/sounds/sonidos_mp3/error.mp3'),
+  success: require('../assets/sounds/sonidos_mp3/success.mp3'),
 };
 
 class AudioManager {
@@ -76,9 +78,13 @@ class AudioManager {
         return;
       }
       
-      // Replay from start
-      await this.sounds[soundName].setPositionAsync(0);
-      await this.sounds[soundName].playAsync();
+      const sound = this.sounds[soundName];
+      const status = await sound.getStatusAsync();
+      
+      if (status.isLoaded) {
+        await sound.setPositionAsync(0);
+        await sound.playAsync();
+      }
     } catch (error) {
       console.error('Error playing sound:', error);
     }
@@ -98,15 +104,38 @@ class AudioManager {
    * Play error sound
    */
   async playErrorSound() {
-    // Could use a specific error sound if available
-    console.log('Error sound');
+    if (!this.isEnabled || !this.isInitialized) return;
+    
+    try {
+      if (!this.sounds.error) return;
+      
+      const status = await this.sounds.error.getStatusAsync();
+      if (status.isLoaded) {
+        await this.sounds.error.setPositionAsync(0);
+        await this.sounds.error.playAsync();
+      }
+    } catch (error) {
+      console.error('Error playing error sound:', error);
+    }
   }
 
   /**
    * Play success sound
    */
   async playSuccessSound() {
-    console.log('Success sound');
+    if (!this.isEnabled || !this.isInitialized) return;
+    
+    try {
+      if (!this.sounds.success) return;
+      
+      const status = await this.sounds.success.getStatusAsync();
+      if (status.isLoaded) {
+        await this.sounds.success.setPositionAsync(0);
+        await this.sounds.success.playAsync();
+      }
+    } catch (error) {
+      console.error('Error playing success sound:', error);
+    }
   }
 
   /**
@@ -114,6 +143,26 @@ class AudioManager {
    */
   async playLevelUpSound() {
     console.log('Level up sound');
+  }
+
+  /**
+   * Stop all currently playing sounds
+   */
+  async stopAllSounds() {
+    if (!this.isEnabled || !this.isInitialized) return;
+    
+    try {
+      for (const sound of Object.values(this.sounds)) {
+        if (sound) {
+          const status = await sound.getStatusAsync();
+          if (status.isLoaded && status.isPlaying) {
+            await sound.stopAsync();
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error stopping sounds:', error);
+    }
   }
 
   /**

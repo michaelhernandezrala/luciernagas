@@ -45,9 +45,6 @@ export default function HomeScreen({ onStartGame, highScores }) {
                   <Text style={styles.difficultyName}>
                     {difficulty.name}
                   </Text>
-                  <Text style={styles.difficultyInfo}>
-                    {difficulty.initialButtons}-{difficulty.maxButtons} botones
-                  </Text>
                   {highScore > 0 && (
                     <View style={styles.miniScore}>
                       <Text style={styles.miniScoreText}>🏆 {highScore}</Text>
@@ -57,23 +54,6 @@ export default function HomeScreen({ onStartGame, highScores }) {
               );
             })}
           </View>
-        </View>
-
-        {/* Instructions */}
-        <View style={styles.instructionsContainer}>
-          <Text style={styles.instructionText}>
-            Observa la secuencia de luciérnagas
-          </Text>
-          <Text style={styles.instructionText}>
-            y repítela en el mismo orden
-          </Text>
-        </View>
-
-        {/* Footer */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>
-            Cada nivel añade una nueva luciérnaga
-          </Text>
         </View>
       </View>
     </SafeAreaView>
@@ -98,7 +78,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: fontSize.huge,
+    fontSize: fontSize.xxlarge,
     fontWeight: 'bold',
     color: '#ffd700',
     textShadowColor: '#ff6b00',
@@ -109,13 +89,13 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: fontSize.large,
-    color: '#a0a0ff',
+    color: '#ffffff',
     fontWeight: '300',
     fontFamily: fontFamily.text,
   },
   sectionTitle: {
     fontSize: fontSize.medium,
-    color: '#a0a0ff',
+    color: '#ffffff',
     fontWeight: '600',
     textAlign: 'center',
     marginBottom: spacing.md,
