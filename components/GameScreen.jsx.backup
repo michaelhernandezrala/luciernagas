@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, Animated } from 'react-native';
+import { View, Text, StyleSheet, Animated, TouchableOpacity } from 'react-native';
 import ScoreBoard from './ScoreBoard';
 import FireflyGrid from './FireflyGrid';
 import PauseModal from './PauseModal';
@@ -38,8 +38,6 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
   };
 
   const numberOfFireflies = getCurrentFireflyCount();
-
-  // Start game on mount
   useEffect(() => {
     hapticManager.gameStart();
     startGame();
@@ -55,10 +53,10 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
         (fireflyId) => {
           audioManager.playSound(fireflyId);
         },
-        difficulty.speed
+        difficulty.speed // Use difficulty speed
       );
     }
-  }, [isPlayingSequence, sequence, setCurrentFirefly, finishPlayingSequence, difficulty.speed]);
+  }, [isPlayingSequence, sequence, setCurrentFirefly, finishPlayingSequence]);
 
   // Handle game over
   useEffect(() => {
@@ -114,15 +112,16 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
   };
 
   const handleRestartFromPause = () => {
-    setIsPaused(false);
-    startGame();
-  };
-
-  const handleQuitFromPause = () => {
-    setIsPaused(false);
-    onQuitToMenu();
-  };
-
+    setIsPaused(fal0}
+        onPause={handlePause}
+      />
+      
+      <Animated.View style={[styles.gameArea, animatedStyle]}>
+        <FireflyGrid
+          numberOfFireflies={numberOfFireflies}
+          onFireflyPress={handleFireflyPress}
+          currentlyPlaying={currentlyPlaying}
+          disabled={!isUserTurn || isPlayingSequence || isPaused
   const animatedStyle = {
     transform: [{ translateX: shakeAnim }],
   };
@@ -132,16 +131,22 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
       <ScoreBoard 
         currentScore={score}
         currentLevel={currentLevel}
-        highScore={0}
-        onPause={handlePause}
+        highScore={highScore}
       />
       
       <Animated.View style={[styles.gameArea, animatedStyle]}>
         <FireflyGrid
-          numberOfFireflies={numberOfFireflies}
+          numberOfFireflies={NUMBER_OF_FIREFLIES}
           onFireflyPress={handleFireflyPress}
           currentlyPlaying={currentlyPlaying}
-          disabled={!isUserTurn || isPlayingSequence || isPaused}
+
+      <PauseModal
+        visible={isPaused}
+        onContinue={handleContinue}
+        onRestart={handleRestartFromPause}
+        onQuit={handleQuitFromPause}
+      />
+          disabled={!isUserTurn || isPlayingSequence}
         />
       </Animated.View>
 
@@ -160,13 +165,6 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
           </View>
         )}
       </View>
-
-      <PauseModal
-        visible={isPaused}
-        onContinue={handleContinue}
-        onRestart={handleRestartFromPause}
-        onQuit={handleQuitFromPause}
-      />
     </View>
   );
 }

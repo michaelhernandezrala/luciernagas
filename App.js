@@ -7,8 +7,7 @@ import HomeScreen from './components/HomeScreen';
 import GameScreen from './components/GameScreen';
 import GameOverScreen from './components/GameOverScreen';
 import audioManager from './utils/audioManager';
-
-const HIGH_SCORE_KEY = '@luciernaga_high_score';
+import { STORAGE_KEYS, DIFFICULTY_LEVELS } from './utils/constants';
 
 // App navigation states
 const SCREENS = {
@@ -19,31 +18,46 @@ const SCREENS = {
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState(SCREENS.HOME);
-  const [highScore, setHighScore] = useState(0);
+  const [highScores, setHighScores] = useState({
+    EASY: 0,
+    MEDIUM: 0,
+    HARD: 0,
+    EXPERT: 0,
+  });
+  const [currentDifficulty, setCurrentDifficulty] = useState(null);
   const [lastScore, setLastScore] = useState(0);
   const [isNewRecord, setIsNewRecord] = useState(false);
 
   // Load high score on mount
   useEffect(() => {
-    loadHighScore();
+    loadHighScores();
     initializeAudio();
   }, []);
 
-  const loadHighScore = async () => {
+  const loadHighScores = async () => {
     try {
-      const savedHighScore = await AsyncStorage.getItem(HIGH_SCORE_KEY);
-      if (savedHighScore !== null) {
-        setHighScore(parseInt(savedHighScore, 10));
+      const scores = {};
+      for (const [key, storageKey] of Object.entries(STORAGE_KEYS)) {
+        if (key.startsWith('HIGH_SCORE')) {
+          const savedScore = await AsyncStorage.getItem(storageKey);
+          const difficultyKey = key.replace('HIGH_SCORE_', '');
+          scores[difficultyKey] = savedScore ? parseInt(savedScore, 10) : 0;
+        }
       }
+      setHighScores(scores);
     } catch (error) {
-      console.error('Error loading high score:', error);
+      console.error('Error loading high scores:', error);
     }
   };
 
-  const saveHighScore = async (newHighScore) => {
+  const saveHighScore = async (difficulty, newHighScore) => {
     try {
-      await AsyncStorage.setItem(HIGH_SCORE_KEY, newHighScore.toString());
-      setHighScore(newHighScore);
+      const storageKey = STORAGE_KEYS[`HIGH_SCORE_${difficulty}`];
+      await AsyncStorage.setItem(storageKey, newHighScore.toString());
+      setHighScores(prev => ({
+        ...prev,
+        [difficulty]: newHighScore,
+      }));
     } catch (error) {
       console.error('Error saving high score:', error);
     }
@@ -55,17 +69,20 @@ export default function App() {
     // For now, the audio manager will use fallback sounds
   };
 
-  const handleStartGame = () => {
+  const handleStartGame = (difficulty) => {
+    setCurrentDifficulty(difficulty);
     setCurrentScreen(SCREENS.GAME);
   };
 
   const handleGameOver = (score) => {
     setLastScore(score);
     
+    const currentHighScore = highScores[currentDifficulty.id];
+    
     // Check if new record
-    if (score > highScore) {
+    if (score > currentHighScore) {
       setIsNewRecord(true);
-      saveHighScore(score);
+      saveHighScore(currentDifficulty.id, score);
     } else {
       setIsNewRecord(false);
     }
@@ -78,6 +95,7 @@ export default function App() {
   };
 
   const handleGoHome = () => {
+    setCurrentDifficulty(null);
     setCurrentScreen(SCREENS.HOME);
   };
 
@@ -89,24 +107,26 @@ export default function App() {
         {currentScreen === SCREENS.HOME && (
           <HomeScreen 
             onStartGame={handleStartGame}
-            highScore={highScore}
+            highScores={highScores}
           />
         )}
         
-        {currentScreen === SCREENS.GAME && (
+        {currentScreen === SCREENS.GAME && currentDifficulty && (
           <GameScreen 
             onGameOver={handleGameOver}
-            highScore={highScore}
+            onQuitToMenu={handleGoHome}
+            difficulty={currentDifficulty}
           />
         )}
         
         {currentScreen === SCREENS.GAME_OVER && (
           <GameOverScreen
             score={lastScore}
-            highScore={highScore}
+            highScore={highScores[currentDifficulty?.id] || 0}
             isNewRecord={isNewRecord}
             onRestart={handleRestart}
             onHome={handleGoHome}
+            difficulty={currentDifficulty}
           />
         )}
       </View>

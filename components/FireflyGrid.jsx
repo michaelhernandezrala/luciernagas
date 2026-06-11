@@ -1,37 +1,29 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import Firefly from './Firefly';
+import { COLORS } from '../utils/constants';
 
 const { width } = Dimensions.get('window');
-
-// Default firefly colors (warm night colors)
-const DEFAULT_COLORS = [
-  '#FFD700', // Gold
-  '#FFA500', // Orange
-  '#FF6347', // Tomato
-  '#FF69B4', // Hot Pink
-];
 
 export default function FireflyGrid({ 
   numberOfFireflies = 4, 
   onFireflyPress, 
   currentlyPlaying,
   disabled,
-  colors = DEFAULT_COLORS
 }) {
   const fireflies = Array.from({ length: numberOfFireflies }, (_, i) => i);
   
-  // Arrange in a grid layout (2x2 for 4 fireflies)
-  const columns = Math.ceil(Math.sqrt(numberOfFireflies));
+  // Calculate grid layout
+  const columns = numberOfFireflies <= 4 ? 2 : numberOfFireflies <= 6 ? 3 : 4;
 
   return (
     <View style={styles.container}>
-      <View style={styles.grid}>
+      <View style={[styles.grid, { maxWidth: width - 20 }]}>
         {fireflies.map((id) => (
           <Firefly
             key={id}
             id={id}
-            color={colors[id % colors.length]}
+            color={COLORS.fireflies[id % COLORS.fireflies.length]}
             onPress={onFireflyPress}
             isActive={currentlyPlaying === id}
             disabled={disabled}

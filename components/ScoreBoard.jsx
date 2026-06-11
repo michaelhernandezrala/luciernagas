@@ -1,11 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function ScoreBoard({ currentScore, currentLevel, highScore }) {
+export default function ScoreBoard({ currentScore, currentLevel, highScore, onPause }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
+        {/* Pause Button */}
+        <TouchableOpacity style={styles.pauseButton} onPress={onPause} activeOpacity={0.7}>
+          <Text style={styles.pauseIcon}>⏸️</Text>
+        </TouchableOpacity>
+
         {/* Left: Current Score */}
         <View style={styles.statContainer}>
           <Text style={styles.statLabel}>Puntos</Text>
@@ -40,6 +45,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 15,
     paddingHorizontal: 20,
+    position: 'relative',
+  },
+  pauseButton: {
+    position: 'absolute',
+    left: 15,
+    top: 15,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(160, 160, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'rgba(160, 160, 255, 0.4)',
+  },
+  pauseIcon: {
+    fontSize: 20,
   },
   statContainer: {
     alignItems: 'center',

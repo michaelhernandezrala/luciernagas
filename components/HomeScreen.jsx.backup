@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { DIFFICULTY_LEVELS } from '../utils/constants';
+import { DIFFICULTY_LEVELS, COLORS } from '../utils/constants';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 export default function HomeScreen({ onStartGame, highScores }) {
   const [selectedDifficulty, setSelectedDifficulty] = useState(DIFFICULTY_LEVELS.MEDIUM);
-
-  const handleDifficultySelect = (difficulty) => {
-    console.log('Difficulty selected:', difficulty.name);
-    setSelectedDifficulty(difficulty);
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
@@ -38,17 +32,17 @@ export default function HomeScreen({ onStartGame, highScores }) {
                     isSelected && styles.difficultyCardSelected,
                     { borderColor: difficulty.color }
                   ]}
-                  onPress={() => handleDifficultySelect(difficulty)}
+                  onPress={() => setSelectedDifficulty(difficulty)}
                   activeOpacity={0.7}
-                  accessible={true}
-                  accessibilityLabel={`Seleccionar dificultad ${difficulty.name}`}
                 >
                   <Text style={styles.difficultyEmoji}>{difficulty.emoji}</Text>
-                  <Text style={[styles.difficultyName, isSelected && styles.difficultyNameSelected]}>
-                    {difficulty.name}
-                  </Text>
-                  <Text style={styles.difficultyInfo}>
-                    {difficulty.initialButtons}-{difficulty.maxButtons} botones
+                 [styles.startButton, { backgroundColor: selectedDifficulty.color }]}
+          onPress={() => onStartGame(selectedDifficulty)}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.startButtonText}>
+            COMENZAR {selectedDifficulty.emoji}
+          ulty.maxButtons} botones
                   </Text>
                   {highScore > 0 && (
                     <View style={styles.miniScore}>
@@ -73,13 +67,11 @@ export default function HomeScreen({ onStartGame, highScores }) {
 
         {/* Start Button */}
         <TouchableOpacity 
-          style={[styles.startButton, { backgroundColor: selectedDifficulty.color }]}
-          onPress={() => onStartGame(selectedDifficulty)}
+          style={styles.startButton}
+          onPress={onStartGame}
           activeOpacity={0.8}
         >
-          <Text style={styles.startButtonText}>
-            COMENZAR {selectedDifficulty.emoji}
-          </Text>
+          <Text style={styles.startButtonText}>COMENZAR</Text>
         </TouchableOpacity>
 
         {/* Footer */}
@@ -121,8 +113,6 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 20,
     color: '#a0a0ff',
-    fontWeight: '300',
-  },
   sectionTitle: {
     fontSize: 18,
     color: '#a0a0ff',
@@ -138,7 +128,9 @@ const styles = StyleSheet.create({
   },
   difficultyGrid: {
     flexDirection: 'row',
-    alignItems: 'center',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 10,
   },
   difficultyCard: {
     width: (width - 60) / 2,
@@ -148,7 +140,6 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: 'center',
     minHeight: 120,
-    margin: 5,
   },
   difficultyCardSelected: {
     backgroundColor: 'rgba(255, 255, 255, 0.15)',
@@ -181,7 +172,9 @@ const styles = StyleSheet.create({
   miniScoreText: {
     fontSize: 11,
     color: '#ffd700',
+    fontWeight: 'bold
     fontWeight: 'bold',
+    color: '#ffd700',
   },
   instructionsContainer: {
     alignItems: 'center',
@@ -195,6 +188,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   startButton: {
+    backgroundColor: '#ffd700',
     paddingHorizontal: 60,
     paddingVertical: 20,
     borderRadius: 30,

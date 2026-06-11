@@ -4,13 +4,18 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
 
-export default function GameOverScreen({ score, highScore, isNewRecord, onRestart, onHome }) {
+export default function GameOverScreen({ score, highScore, isNewRecord, onRestart, onHome, difficulty }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         {/* Game Over Title */}
         <View style={styles.header}>
           <Text style={styles.title}>🌙 Fin del Juego 🌙</Text>
+          {difficulty && (
+            <Text style={styles.difficultyBadge}>
+              {difficulty.emoji} {difficulty.name}
+            </Text>
+          )}
         </View>
 
         {/* Score Display */}
@@ -91,6 +96,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#a0a0ff',
     textAlign: 'center',
+  },
+  difficultyBadge: {
+    fontSize: 16,
+    color: '#a0a0ff',
+    textAlign: 'center',
+    marginTop: 10,
+    fontWeight: '600',
   },
   scoreContainer: {
     alignItems: 'center',
