@@ -14,7 +14,7 @@ export default function GameOverScreen({ score, highScore, isNewRecord, onRestar
           <Text style={styles.title}>🌙 Fin del Juego 🌙</Text>
           {difficulty && (
             <Text style={styles.difficultyBadge}>
-              {difficulty.emoji} {difficulty.name}
+              {`${difficulty.emoji} ${difficulty.name}`}
             </Text>
           )}
         </View>
@@ -72,7 +72,9 @@ export default function GameOverScreen({ score, highScore, isNewRecord, onRestar
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>    </Background>  );
+    </SafeAreaView>
+    </Background>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -95,7 +97,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#a0a0ff',
     textAlign: 'center',
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.title,
   },
   difficultyBadge: {
     fontSize: fontSize.medium,
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: spacing.sm,
     fontWeight: '600',
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.title,
   },
   scoreContainer: {
     alignItems: 'center',
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
     fontSize: fontSize.large,
     color: '#e0e0e0',
     marginBottom: spacing.sm,
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.text,
   },
   scoreValue: {
     fontSize: moderateScale(72),
@@ -122,7 +124,7 @@ const styles = StyleSheet.create({
     textShadowColor: '#ff6b00',
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 20,
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.title,
   },
   newRecordBadge: {
     backgroundColor: 'rgba(255, 215, 0, 0.2)',
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffd700',
     textAlign: 'center',
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.title,
   },
   highScoreContainer: {
     alignItems: 'center',
@@ -147,13 +149,13 @@ const styles = StyleSheet.create({
     fontSize: fontSize.regular,
     color: '#a0a0ff',
     marginBottom: spacing.xs,
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.text,
   },
   highScoreValue: {
     fontSize: fontSize.xxlarge,
     fontWeight: 'bold',
     color: '#a0a0ff',
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.title,
   },
   messageContainer: {
     paddingHorizontal: spacing.xl,
@@ -163,7 +165,7 @@ const styles = StyleSheet.create({
     color: '#e0e0e0',
     textAlign: 'center',
     fontStyle: 'italic',
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.text,
   },
   buttonsContainer: {
     width: '100%',
@@ -188,7 +190,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#0a0e27',
     letterSpacing: 1,
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.title,
   },
   homeButton: {
     backgroundColor: 'transparent',
@@ -205,6 +207,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#a0a0ff',
     letterSpacing: 1,
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.title,
   },
 });

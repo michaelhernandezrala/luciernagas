@@ -10,17 +10,17 @@ export default function FireflyGrid({
   currentlyPlaying,
   disabled,
 }) {
-  // Always ensure luciérnaga (index 9) is included if we have enough buttons
-  let fireflies;
-  if (numberOfFireflies >= 10) {
-    // Ensure index 9 (luciérnaga) is always included
+  // ALWAYS ensure luciérnaga (index 9) is included - MUST HAVE
+  const luciernaganIndex = 9;
+  let fireflies = [];
+  
+  if (numberOfFireflies > luciernaganIndex) {
+    // If we have more buttons than luciernaganIndex, include everything up to numberOfFireflies
     fireflies = Array.from({ length: numberOfFireflies }, (_, i) => i);
-    if (!fireflies.includes(9)) {
-      // Replace last item with 9 if not included
-      fireflies[fireflies.length - 1] = 9;
-    }
   } else {
-    fireflies = Array.from({ length: numberOfFireflies }, (_, i) => i);
+    // If we have fewer buttons, include luciérnaga and fill with others
+    fireflies = Array.from({ length: numberOfFireflies - 1 }, (_, i) => i);
+    fireflies.push(luciernaganIndex); // Always add luciérnaga
   }
   
   // Calculate grid layout

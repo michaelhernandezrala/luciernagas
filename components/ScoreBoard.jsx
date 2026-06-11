@@ -58,13 +58,13 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     marginBottom: spacing.xs,
     fontWeight: '600',
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.text,
   },
   statValue: {
     fontSize: fontSize.xlarge,
     fontWeight: 'bold',
     color: '#ffffff',
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.title,
   },
   levelValue: {
     fontSize: fontSize.xxlarge,

@@ -76,7 +76,9 @@ export default function HomeScreen({ onStartGame, highScores }) {
           </Text>
         </View>
       </View>
-    </SafeAreaView>    </Background>  );
+    </SafeAreaView>
+    </Background>
+  );
 }
 
 const cardWidth = (SCREEN_WIDTH - spacing.xl * 3) / 2;
@@ -103,13 +105,13 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 20,
     marginBottom: spacing.sm,
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.title,
   },
   subtitle: {
     fontSize: fontSize.large,
     color: '#a0a0ff',
     fontWeight: '300',
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.text,
   },
   sectionTitle: {
     fontSize: fontSize.medium,
@@ -119,7 +121,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
     textTransform: 'uppercase',
     letterSpacing: 1,
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.text,
   },
   difficultyContainer: {
     width: '100%',
@@ -150,12 +152,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffff',
     marginBottom: spacing.xs,
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.title,
   },
   difficultyInfo: {
     fontSize: fontSize.small,
     color: '#a0a0ff',
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.text,
   },
   miniScore: {
     marginTop: spacing.xs,
@@ -168,7 +170,7 @@ const styles = StyleSheet.create({
     fontSize: fontSize.small,
     color: '#ffd700',
     fontWeight: 'bold',
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.title,
   },
   instructionsContainer: {
     alignItems: 'center',
@@ -180,7 +182,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: spacing.xs,
     lineHeight: moderateScale(24),
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.text,
   },
   footer: {
     marginBottom: spacing.md,
@@ -190,6 +192,6 @@ const styles = StyleSheet.create({
     color: '#808080',
     textAlign: 'center',
     fontStyle: 'italic',
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.text,
   },
 });

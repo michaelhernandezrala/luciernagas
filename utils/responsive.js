@@ -46,7 +46,9 @@ export const fontSize = {
  * Font family for the app
  */
 export const fontFamily = {
-  regular: 'BubblegumSans_400Regular',
+  title: 'Fredoka_700Bold',      // For titles, numbers, scores
+  text: 'Inter_400Regular',      // For paragraphs, descriptions
+  textBold: 'Inter_600SemiBold', // For emphasized text
 };
 
 /**

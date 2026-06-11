@@ -101,7 +101,7 @@ export default function Firefly({
       style={styles.container}
       pointerEvents={disabled ? 'none' : 'auto'}
     >
-      <Animated.View style={scaleStyle}>
+      <Animated.View style={[scaleStyle, { transform: [{ scale: scaleAnim }, { scale: pressScale }] }]}>
         <Animated.View
           style={[
             styles.firefly,
@@ -113,6 +113,8 @@ export default function Firefly({
             }
           ]}
         >
+          {/* Inner shadow effect for 3D */}
+          <Animated.View style={[styles.innerShadow, { opacity: pressAnim }]} />
           <Text style={styles.animalEmoji}>{animal}</Text>
         </Animated.View>
       </Animated.View>
@@ -151,7 +153,7 @@ const styles = StyleSheet.create({
   },
   animalEmoji: {
     fontSize: fontSize.xxlarge,
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.title,
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: { width: 1, height: 2 },
     textShadowRadius: 2,

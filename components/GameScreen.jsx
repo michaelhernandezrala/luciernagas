@@ -8,7 +8,7 @@ import { playSequenceAnimation, createShakeAnimation } from '../animations/gameA
 import useGameEngine from '../hooks/useGameEngine';
 import audioManager from '../utils/audioManager';
 import hapticManager from '../utils/hapticManager';
-import { moderateScale, spacing } from '../utils/responsive';
+import { moderateScale, spacing, fontFamily } from '../utils/responsive';
 
 export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
   const [isPaused, setIsPaused] = useState(false);
@@ -131,7 +131,13 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
   return (
     <Background>
       <View style={styles.container}>
-        {/* Menu Burger Button */}
+        <ScoreBoard 
+          currentScore={score}
+          currentLevel={currentLevel}
+          highScore={0}
+        />
+
+        {/* Menu Burger Button - Below ScoreBoard */}
         <TouchableOpacity 
           style={styles.menuButton} 
           onPress={handlePause}
@@ -141,12 +147,6 @@ export default function GameScreen({ onGameOver, onQuitToMenu, difficulty }) {
           <View style={styles.burgerLine} />
           <View style={styles.burgerLine} />
         </TouchableOpacity>
-
-        <ScoreBoard 
-          currentScore={score}
-          currentLevel={currentLevel}
-          highScore={0}
-        />
       
       <Animated.View style={[styles.gameArea, animatedStyle]}>
         <FireflyGrid
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
   menuButton: {
     position: 'absolute',
-    top: spacing.xl,
+    top: 110, // Below ScoreBoard
     left: spacing.lg,
     width: moderateScale(44),
     height: moderateScale(44),
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    zIndex: 100,
+    zIndex: 1, // Lower z-index
   },
   burgerLine: {
     width: moderateScale(20),
@@ -257,6 +257,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#e0e0e0',
     fontWeight: '600',
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.text,
   },
 });

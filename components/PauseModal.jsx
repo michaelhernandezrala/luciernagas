@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: spacing.lg,
     letterSpacing: 3,
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.title,
   },
   buttonContainer: {
     marginTop: spacing.md,
@@ -112,6 +112,6 @@ const styles = StyleSheet.create({
     fontSize: fontSize.large,
     fontWeight: 'bold',
     color: '#0a0e27',
-    fontFamily: fontFamily.regular,
+    fontFamily: fontFamily.title,
   },
 });

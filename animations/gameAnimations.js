@@ -24,10 +24,12 @@ export function playSequenceAnimation(
 
   const playNext = () => {
     if (currentIndex >= sequence.length) {
-      // Sequence complete
-      setCurrentFirefly(null);
+      // Sequence complete - wait a bit before finishing
       setTimeout(() => {
-        onComplete();
+        setCurrentFirefly(null);
+        setTimeout(() => {
+          onComplete();
+        }, 500); // Extra delay to ensure last button is visible
       }, 300);
       return;
     }
@@ -42,11 +44,11 @@ export function playSequenceAnimation(
 
     currentIndex++;
 
-    // Wait and play next
+    // Wait longer to ensure button light is visible
     setTimeout(() => {
       setCurrentFirefly(null);
-      setTimeout(playNext, 200);
-    }, delayBetween);
+      setTimeout(playNext, 300); // Pause between buttons
+    }, delayBetween + 100); // Extra time to see each button
   };
 
   // Small delay before starting
